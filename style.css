@@ -26,12 +26,16 @@ button:hover {
 }
 
 .tally {
+    width: 200px;
     margin-top: 20px;
     padding: 10px;
     border: 2px solid #4CAF50;
     border-radius: 5px;
     display: inline-block;
     background-color: white;
+    display: flex;
+    align-items: center;
+
 }
 
 .tally p {
