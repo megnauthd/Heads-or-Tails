@@ -1,64 +1,50 @@
-const tally = {
-    heads: 0,
-    tails: 0
+// Array to tally both the heads and tails default value will be 0 so when flipped the values will change
+let tally = {
+  heads: 0,
+  tails: 0,
 };
 
-const coinImages = [
-    "https://m.media-amazon.com/images/I/51xs7F+tP5L._AC_UF894,1000_QL80_.jpg", // heads image
-    "https://m.media-amazon.com/images/I/51bcZy+HZpL._AC_UF894,1000_QL80_.jpg"  // tails image
-];
-
-const generate = document.querySelector(".generate");
-const headCount = document.querySelector(".headCount");
-const tailCount = document.querySelector(".tailCount");
-const headList = document.querySelector(".headList");
-const tailList = document.querySelector(".tailList");
-
-function getHeadsOrTails() {
-    return Math.random() < 0.5 ? "heads" : "tails";
+// Function to flip the coin by using math.random that pretty much days heads or tails 50/50
+function flipCoin() {
+  return Math.random() < 0.5 ? "heads" : "tails";
 }
 
-function updateDisplayOfTally() {
-    headCount.textContent = tally.heads;
-    tailCount.textContent = tally.tails;
+// Function to update the display by getting what value it lands on or Id is displayed then it tally's that id
+function updateDisplay() {
+  document.getElementById("headsCount").innerText = tally.heads;
+  document.getElementById("tailsCount").innerText = tally.tails;
 }
 
-function listUpdater(result) {
-    const itemList = document.createElement("li");
-    itemList.textContent = result;
-  
-    if (result === "heads") {
-        headList.appendChild(itemList);
-    } else {
-        tailList.appendChild(itemList);
-    }
+// Function to add flip result to the corresponding list
+// created a new list everytime its flipped
+//conditional statement that determines what will be displayed
+function addToList(result) {
+  const listItem = document.createElement("li");
+  listItem.textContent = result.charAt(0).toUpperCase() + result.slice(1);
+
+  if (result === "heads") {
+    document.getElementById("headsList").appendChild(listItem);
+  } else {
+    document.getElementById("tailsList").appendChild(listItem);
+  }
 }
 
-function displayResult(result, listElement) {
-    const img = document.createElement('img');
-    img.src = result === "heads" ? coinImages[0] : coinImages[1];
-    img.style.width = "50px"; // Adjust the size as necessary
-    listElement.appendChild(img);
-}
+// Event listener for the flip button
+// This allows for when the button is clicked to send an argument or message to the function saying to flip the coin
+document.getElementById("flipBtn").addEventListener("click", function () {
+  const result = flipCoin();
 
-generate.addEventListener('click', function () {
-    // Reset tally and lists for fresh 100 flips
-    tally.heads = 0;
-    tally.tails = 0;
-    headList.innerHTML = '';
-    tailList.innerHTML = '';
+  // Flip the coin 100 times
+  for (let i = 0; i < 100; i++) {
+    const result = flipCoin();
 
-    for (let i = 0; i < 100; i++) {
-        const result = getHeadsOrTails();
-        tally[result]++;
-        updateDisplayOfTally();
-        listUpdater(result);
+    // Update the tally
+    tally[result]++;
 
-        // Display images corresponding to heads/tails
-        if (result === "heads") {
-            displayResult(result, headList);
-        } else {
-            displayResult(result, tailList);
-        }
-    }
+    // Add the result to the appropriate list
+    addToList(result);
+  }
+
+  // Update the display, calls the function to rerender at the end of the code as its being read from top to bottom
+  updateDisplay();
 });
