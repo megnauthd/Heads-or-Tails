@@ -34,12 +34,17 @@ function addToList(result) {
 document.getElementById("flipBtn").addEventListener("click", function () {
   const result = flipCoin();
 
-  // Update the tally by adding the results to the tally
-  tally[result]++;
+  // Flip the coin 100 times
+  for (let i = 0; i < 100; i++) {
+    const result = flipCoin();
+
+    // Update the tally
+    tally[result]++;
+
+    // Add the result to the appropriate list
+    addToList(result);
+  }
 
   // Update the display, calls the function to rerender at the end of the code as its being read from top to bottom
   updateDisplay();
-
-  // Add the result to the appropriate list
-  addToList(result);
 });
